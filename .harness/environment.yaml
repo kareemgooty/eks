@@ -1,0 +1,9 @@
+# Harness Environment targeting the existing EKS cluster
+environment:
+  name: prod
+  identifier: prod
+  orgIdentifier: default
+  projectIdentifier: default_project
+  type: PreProduction
+  variables: []
+  tags: {}

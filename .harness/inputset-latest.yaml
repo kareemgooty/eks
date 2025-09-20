@@ -1,0 +1,11 @@
+inputSet:
+  name: latest-tag
+  identifier: latest_tag
+  orgIdentifier: default
+  projectIdentifier: default_project
+  pipeline:
+    identifier: hello_python_deploy
+    variables:
+      - name: IMAGE_TAG
+        type: String
+        value: latest

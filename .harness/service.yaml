@@ -1,0 +1,35 @@
+# Harness Service: Deploys k8s manifests from this repo and uses ECR image
+service:
+  name: hello-python
+  identifier: hello_python
+  orgIdentifier: default
+  projectIdentifier: default_project
+  serviceDefinition:
+    type: Kubernetes
+    spec:
+      artifacts:
+        primary:
+          type: Ecr
+          spec:
+            # Create an AWS connector in Harness and set its identifier here
+            # Project Setup -> Connectors -> New Connector -> AWS
+            connectorRef: aws_ecr
+            region: us-east-1
+            imagePath: 186463824337.dkr.ecr.us-east-1.amazonaws.com/ecr_kareem_repo
+            # Pipeline variable defined in pipeline.yaml
+            tag: <+pipeline.variables.IMAGE_TAG>
+      manifests:
+        - manifest:
+            identifier: k8s
+            type: K8sManifest
+            spec:
+              store:
+                # Create a Git connector pointing to this repo (read access)
+                type: Git
+                spec:
+                  connectorRef: repo_git
+                  gitFetchType: Branch
+                  branch: main
+                  paths:
+                    - k8s
+              skipResourceVersioning: false

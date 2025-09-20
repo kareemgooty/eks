@@ -1,0 +1,57 @@
+pipeline:
+  name: hello-python-deploy
+  identifier: hello_python_deploy
+  projectIdentifier: default_project
+  orgIdentifier: default
+  tags: {}
+  properties: {}
+  variables:
+    - name: IMAGE_TAG
+      type: String
+      value: latest
+      description: ECR image tag to deploy
+  stages:
+    - stage:
+        name: Deploy to EKS
+        identifier: Deploy_to_EKS
+        description: Deploy k8s manifests to hello namespace on EKS
+        type: Deployment
+        spec:
+          serviceConfig:
+            serviceRef: hello_python
+            serviceDefinition:
+              type: Kubernetes
+              spec:
+                variables: []
+          infrastructure:
+            environmentRef: prod
+            infrastructureDefinition:
+              type: KubernetesDirect
+              spec:
+                connectorRef: k8s_eks
+                namespace: hello
+                releaseName: hello-python
+              identifier: eks_hello
+            allowSimultaneousDeployments: false
+          execution:
+            steps:
+              - step:
+                  name: Rollout Deployment
+                  identifier: rolloutDeployment
+                  type: K8sRollingDeploy
+                  spec:
+                    skipDryRun: false
+                    pruningEnabled: true
+            rollbackSteps:
+              - step:
+                  name: Rollback Rollout Deployment
+                  identifier: rollbackRolloutDeployment
+                  type: K8sRollingRollback
+                  spec: {}
+        tags: {}
+        failureStrategies:
+          - onFailure:
+              errors:
+                - AllErrors
+              action:
+                type: StageRollback

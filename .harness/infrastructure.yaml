@@ -1,0 +1,12 @@
+infrastructureDefinition:
+  name: eks-hello
+  identifier: eks_hello
+  orgIdentifier: default
+  projectIdentifier: default_project
+  environmentRef: prod
+  type: KubernetesDirect
+  spec:
+    connectorRef: k8s_eks
+    namespace: hello
+    releaseName: hello-python
+  allowSimultaneousDeployments: false

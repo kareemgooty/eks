@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-python
+  namespace: hello
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello-python
+  template:
+    metadata:
+      labels:
+        app: hello-python
+    spec:
+      containers:
+        - name: hello
+          image: 186463824337.dkr.ecr.us-east-1.amazonaws.com/ecr_kareem_repo:latest
+          imagePullPolicy: Always
+          # Run the script, then keep the container alive so the pod remains Running
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              set -e
+              python hello.py
+              echo "Container will now stay alive for inspection..."
+              tail -f /dev/null
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+      restartPolicy: Always

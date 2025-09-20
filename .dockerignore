@@ -1,0 +1,11 @@
+# Keep the build context small
+**/__pycache__/
+**/*.pyc
+**/.pytest_cache/
+**/.venv/
+.venv/
+.env
+.git
+.gitignore
+**/.DS_Store
+**/Thumbs.db

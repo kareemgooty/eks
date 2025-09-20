@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: hello-python-job
+  namespace: hello
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        app: hello-python-job
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: hello
+          image: 186463824337.dkr.ecr.us-east-1.amazonaws.com/ecr_kareem_repo:latest
+          imagePullPolicy: Always
+          command: ["python", "hello.py"]
