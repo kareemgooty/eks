@@ -1,0 +1,5 @@
+service:
+  name: eks
+  identifier: eks
+  orgIdentifier: default
+  projectIdentifier: default_project
