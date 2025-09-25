@@ -8,7 +8,7 @@ pipeline:
   variables:
     - name: IMAGE_TAG
       type: String
-      value: latest
+      value: <+input>
       description: ECR image tag to deploy
   stages:
     - stage:
